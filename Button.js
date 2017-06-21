@@ -2,20 +2,24 @@ import React, { Component, PropTypes } from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
+  Touchable,
   View,
-  ViewPropTypes,
-} from 'react-native';
+} from 'react-primitives'
 
 import coalesceNonElementChildren from './coalesceNonElementChildren';
+
+// import {
+//   ViewPropTypes,
+// } from 'react-native';
+
 
 const systemButtonOpacity = 0.2;
 
 export default class Button extends Component {
   static propTypes = {
-    ...TouchableOpacity.propTypes,
+    ...Touchable.propTypes,
     allowFontScaling: Text.propTypes.allowFontScaling,
-    containerStyle: ViewPropTypes.style,
+    // containerStyle: ViewPropTypes.style,
     disabled: PropTypes.bool,
     style: Text.propTypes.style,
     styleDisabled: Text.propTypes.style,
@@ -25,6 +29,7 @@ export default class Button extends Component {
     let touchableProps = {
       activeOpacity: this._computeActiveOpacity(),
     };
+    console.log('render', this)
     if (!this.props.disabled) {
       touchableProps.onPress = this.props.onPress;
       touchableProps.onPressIn = this.props.onPressIn;
@@ -33,18 +38,19 @@ export default class Button extends Component {
     }
 
     return (
-      <TouchableOpacity
+      <Touchable
         {...touchableProps}
         testID={this.props.testID}
         style={this.props.containerStyle}
         accessibilityTraits="button"
-        accessibilityComponentType="button">
+        accessibilityComponentType="button"
+      >
         {this._renderGroupedChildren()}
-      </TouchableOpacity>
+      </Touchable>
     );
   }
 
-  _renderGroupedChildren() {
+  _renderGroupedChildren = () => {
     let { disabled } = this.props;
     let style = [
       styles.text,
@@ -71,7 +77,7 @@ export default class Button extends Component {
     }
   }
 
-  _computeActiveOpacity() {
+  _computeActiveOpacity = () => {
     if (this.props.disabled) {
       return 1;
     }
